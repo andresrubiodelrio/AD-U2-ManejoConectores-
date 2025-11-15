@@ -6,10 +6,10 @@ import java.sql.SQLException;
 
 public class MySQL {
 
-    private static final String HOST = "localhost:3306";
-    private static final String BBDD = "progdam";
+    private static final String HOST = "18.209.14.205:3306";
+    private static final String BBDD = "empresa";
     private static final String USUARIO = "root";
-    private static final String CONTRASENA = "";
+    private static final String CONTRASENA = "ad2526";
 
     private static Connection conexion = null;
 

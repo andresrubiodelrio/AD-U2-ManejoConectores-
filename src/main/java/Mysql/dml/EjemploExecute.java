@@ -10,7 +10,7 @@ public class EjemploExecute {
     public static void main(String[] args) {
 
         consultaSelect("SELECT * FROM departamentos");
-        consultaUpdate("UPTADTE departamentos SET dnombre=LOWER(dnombre)");
+        consultaUpdate("UPDATE departamentos SET dnombre=LOWER(dnombre)");
         MySQL.cerrarConexion();
 
     }

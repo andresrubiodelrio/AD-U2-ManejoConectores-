@@ -12,6 +12,9 @@ public class EjemploDML {
     private static Connection conexion = MySQL.establecerConexion();
 
     public static void main(String[] args) {
+
+        listarDepartamentos();
+
         // Insertar un departamento
         // Antes de insertar comprobar si el departamento ya existe.
         insertarDepartamento(100, "DEP 100", "TALAVERA");
@@ -25,6 +28,7 @@ public class EjemploDML {
         // Antes de eliminar comprobar si existe el departamento.
         eliminarDepartamento(10);
         eliminarDepartamento(110);
+        eliminarDepartamento(100);
 
 
         MySQL.cerrarConexion();
@@ -43,11 +47,41 @@ public class EjemploDML {
                 existe = true; // dep existe
             }
             resultado.close();
+            sentencia.close();
         }
         catch (SQLException e) {
             System.out.println(e.getMessage());
         }
         return existe;
+    }
+
+    // Comprobar si existe el departamento.
+    // El metodo devuelve true si existe
+    private static void listarDepartamentos() {
+
+        String sql = "SELECT * FROM departamentos";
+        try {
+            Statement sentencia = conexion.createStatement();
+            ResultSet resultado = sentencia.executeQuery(sql);
+            /* mientras hay registros*/
+            while (resultado.next()) {
+                /* recupera los datos por su ordinal en la tabla o por el nombre
+                 * de la columna, y los muestra en la Salida debidamente tabulados */
+                System.out.printf("%2d %-15s %s\n", resultado.getInt(1),
+                        resultado.getString("dnombre"), resultado.getString(3));
+            }
+
+            /* mensaje de confirmación */
+            System.out.println("\nTabla 'departamentos' consultada correctamente");
+
+            resultado.close();
+            sentencia.close();
+
+        }
+        catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+
     }
 
     public static void insertarDepartamento(int dep, String nombre, String localidad) {
@@ -81,6 +115,7 @@ public class EjemploDML {
                     Statement sentencia = conexion.createStatement();
                     int filas = sentencia.executeUpdate(sql);
                     System.out.println("Borrado:" + filas);
+                    sentencia.close();
                 } catch (SQLException e) {
                     System.out.println(e.getMessage());
                 }
@@ -100,6 +135,7 @@ public class EjemploDML {
             resultado.next();
             reg = resultado.getInt(1);
             resultado.close();
+            sentencia.close();
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
@@ -115,7 +151,7 @@ public class EjemploDML {
             Statement sentencia = conexion.createStatement();
             int filas = sentencia.executeUpdate(sql);
             System.out.println("Actualizados:" + filas);
-
+            sentencia.close();
         } catch (SQLException e) {
 
             System.out.println(e.getMessage());
